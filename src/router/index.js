@@ -54,7 +54,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    if (!localStorage.getItem('JSLIEOIIIUELKJSLKDOISLKDLKSDJOWIEOWIELSKDJLSK')) {
+    if (!localStorage.getItem(process.env.VUE_APP_tokenName)) {
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },

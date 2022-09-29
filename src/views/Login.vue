@@ -33,6 +33,8 @@ import {
     getAuth,
     signInWithPopup
 } from "firebase/auth";
+import {guestAxio} from '../services/AxiosInstance';
+import passwordGenerator from 'password-generator';
 
 const provider = new FacebookAuthProvider();
 
@@ -42,7 +44,7 @@ export default {
     components: {},
 
     methods: {
-        signInWithFacebook() {
+        async signInWithFacebook() {
             // provider.addScope('user_birthday');
             const auth = getAuth();
             // auth.useDeviceLanguage()
@@ -65,10 +67,37 @@ export default {
                     console.log('USER DATA',user, credential);
                     console.log('ACCESS',accessToken);
                     console.log('CREDIENTIAL', credential);
-                    // const userData = {
-                    //     accessToken,
-                    //     user
-                    // }
+                    const userData = {
+                        accessToken,
+                        user: {
+                            name: user.displayName,
+                            email: user.email,
+                            photoUrl: user.photoURL
+                        },
+                    }
+
+                    const fullName = user.displayName.split(' ');
+                    const api = '/auth/login'
+                    const password = passwordGenerator(15, false, /([\w\d\?\-])\1{2,}/g, 'vendconn-')
+                    guestAxio.post(api, {
+                        first_name: fullName[0], last_name: fullName[1], password, email: user.email, phone: user.phone, role: 'user'
+                    }).then(res => {
+
+                        if(res.data.code == 's200'){
+                            this.$swal({
+              toast: true,
+              icon: "success",
+              text: res.data.message,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+            });
+                            localStorage.setItem(process.env.VUE_APP_tokenName, JSON.stringify(userData));
+                            this.$router.push('/dashboard');
+                        }
+                    })
+
 
 
 
