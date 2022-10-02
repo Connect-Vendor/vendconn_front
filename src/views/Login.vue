@@ -68,7 +68,7 @@ export default {
                     console.log('USER DATA',user, credential);
                     console.log('ACCESS',accessToken);
                     console.log('CREDIENTIAL', credential);
-                    
+
                     const userData = {
                         accessToken,
                         user: {
@@ -83,7 +83,7 @@ export default {
                     const api = '/auth/login'
                     
                     guestAxio.post(api, {
-                        first_name: fullName[0], last_name: fullName[1], password, email: user.email, phone: user.phone, role: 'user'
+                        first_name: fullName[0], last_name: fullName[1], password, email: user.email, phone: user.phoneNumber, role: 'user'
                     }).then(res => {
 
                         if(res.data.code == 's200'){
@@ -107,6 +107,7 @@ export default {
                     // ...
                 })
                 .catch((error) => {
+                    console.log(error);
                     // Handle Errors here.
                     const errorCode = error.code;
                     const errorMessage = error.message;
