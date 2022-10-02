@@ -93,7 +93,7 @@ export default {
                     }).then(res => {
 
                         if (res.data.code == 's200') {
-                            this.$swal({
+                            this.$swal.fire({
                                 toast: true,
                                 icon: "success",
                                 text: res.data.message,
