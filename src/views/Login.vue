@@ -65,9 +65,10 @@ export default {
                     const credential = FacebookAuthProvider.credentialFromResult(result);
                     const accessToken = credential.accessToken;
 
-                    // console.log('USER DATA',user, credential);
-                    // console.log('ACCESS',accessToken);
-                    // console.log('CREDIENTIAL', credential);
+                    console.log('USER DATA',user, credential);
+                    console.log('ACCESS',accessToken);
+                    console.log('CREDIENTIAL', credential);
+                    
                     const userData = {
                         accessToken,
                         user: {
