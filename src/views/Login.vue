@@ -33,8 +33,10 @@ import {
     getAuth,
     signInWithPopup
 } from "firebase/auth";
-import {guestAxio} from '../services/AxiosInstance';
-import passwordGenerator  from '../services/passwordGenerator';
+import {
+    guestAxios
+} from '../services/AxiosInstance';
+import passwordGenerator from '../services/passwordGenerator';
 
 const provider = new FacebookAuthProvider();
 
@@ -53,11 +55,10 @@ export default {
             // provider.setCustomParameters({
             //     'display': 'popup'
             // });
-            
 
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    console.log('result',result);
+                    console.log('result', result);
                     // The signed-in user info.
                     const user = result.user;
 
@@ -65,8 +66,8 @@ export default {
                     const credential = FacebookAuthProvider.credentialFromResult(result);
                     const accessToken = credential.accessToken;
 
-                    console.log('USER DATA',user, credential);
-                    console.log('ACCESS',accessToken);
+                    console.log('USER DATA', user, credential);
+                    console.log('ACCESS', accessToken);
                     console.log('CREDIENTIAL', credential);
 
                     const userData = {
@@ -81,28 +82,30 @@ export default {
                     const password = passwordGenerator();
                     const fullName = user.displayName.split(' ');
                     const api = '/auth/login'
-                    
-                    guestAxio.post(api, {
-                        first_name: fullName[0], last_name: fullName[1], password, email: user.email, phone: user.phoneNumber, role: 'user'
+
+                    guestAxios.post(api, {
+                        first_name: fullName[0],
+                        last_name: fullName[1],
+                        password,
+                        email: user.email,
+                        phone: user.phoneNumber,
+                        role: 'user'
                     }).then(res => {
 
-                        if(res.data.code == 's200'){
+                        if (res.data.code == 's200') {
                             this.$swal({
-              toast: true,
-              icon: "success",
-              text: res.data.message,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-            });
+                                toast: true,
+                                icon: "success",
+                                text: res.data.message,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                            });
                             localStorage.setItem(process.env.VUE_APP_tokenName, JSON.stringify(userData));
                             this.$router.push('/dashboard');
                         }
                     })
-
-
-
 
                     // ...
                 })
