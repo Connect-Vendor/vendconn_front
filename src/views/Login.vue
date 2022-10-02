@@ -34,7 +34,7 @@ import {
     signInWithPopup
 } from "firebase/auth";
 import {guestAxio} from '../services/AxiosInstance';
-import passwordGenerator from 'password-generator';
+import passwordGenerator  from '../services/passwordGenerator';
 
 const provider = new FacebookAuthProvider();
 
@@ -53,6 +53,7 @@ export default {
             // provider.setCustomParameters({
             //     'display': 'popup'
             // });
+            
 
             signInWithPopup(auth, provider)
                 .then((result) => {
@@ -64,9 +65,9 @@ export default {
                     const credential = FacebookAuthProvider.credentialFromResult(result);
                     const accessToken = credential.accessToken;
 
-                    console.log('USER DATA',user, credential);
-                    console.log('ACCESS',accessToken);
-                    console.log('CREDIENTIAL', credential);
+                    // console.log('USER DATA',user, credential);
+                    // console.log('ACCESS',accessToken);
+                    // console.log('CREDIENTIAL', credential);
                     const userData = {
                         accessToken,
                         user: {
@@ -76,9 +77,10 @@ export default {
                         },
                     }
 
+                    const password = passwordGenerator();
                     const fullName = user.displayName.split(' ');
                     const api = '/auth/login'
-                    const password = passwordGenerator(15, false, /([\w\d\?\-])\1{2,}/g, 'vendconn-')
+                    
                     guestAxio.post(api, {
                         first_name: fullName[0], last_name: fullName[1], password, email: user.email, phone: user.phone, role: 'user'
                     }).then(res => {
