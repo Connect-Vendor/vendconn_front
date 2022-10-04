@@ -49,12 +49,12 @@ export default {
         async signInWithFacebook() {
             provider.addScope('user_birthday, pages_manage_posts, instagram_basic, instagram_content_publish, email');
             const auth = getAuth();
-            // auth.useDeviceLanguage()
-            // auth.languageCode = 'it';
+            auth.useDeviceLanguage()
+            auth.languageCode = 'it';
 
-            // provider.setCustomParameters({
-            //     'display': 'popup'
-            // });
+            provider.setCustomParameters({
+                'display': 'popup'
+            });
 
             signInWithPopup(auth, provider)
                 .then((result) => {
@@ -110,7 +110,7 @@ export default {
                     // ...
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(JSON.stringify(error));
                     // ...
                 });
 
