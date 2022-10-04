@@ -47,7 +47,7 @@ export default {
 
     methods: {
         async signInWithFacebook() {
-            provider.addScope('user_birthday, pages_manage_posts, instagram_basic, instagram_content_publish, email');
+            provider.addScope('user_birthday');
             const auth = getAuth();
             // auth.useDeviceLanguage()
             // auth.languageCode = 'it';
